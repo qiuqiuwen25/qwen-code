@@ -48,6 +48,7 @@ import type {
   PartListUnion,
 } from '@google/genai';
 import { ToolNames } from '../tools/tool-names.js';
+import { unescapePath } from '../utils/paths.js';
 import { CONCURRENCY_SAFE_KINDS } from '../tools/tools.js';
 import { isShellCommandReadOnly } from '../utils/shellReadOnlyChecker.js';
 import { stripShellWrapper } from '../utils/shell-utils.js';
@@ -1694,7 +1695,7 @@ export class CoreToolScheduler {
         if (typeof filePath === 'string') {
           const rulesCtx = this.config
             .getConditionalRulesRegistry()
-            ?.matchAndConsume(filePath);
+            ?.matchAndConsume(unescapePath(filePath));
           if (rulesCtx) {
             content = appendAdditionalContext(
               content,
